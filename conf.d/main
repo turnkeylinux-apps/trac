@@ -1,0 +1,57 @@
+#!/bin/bash -ex
+
+ADMIN_USER=admin
+ADMIN_PASS=turnkey
+
+TRAC_ETC=/etc/trac
+TRAC_LIB=/var/local/lib/trac
+TRAC_SHARE=/usr/local/share/trac
+
+mkdir -p $TRAC_LIB
+
+# convenience symlinks
+ln -s /srv/repos /var/www/repos
+ln -s $TRAC_ETC /var/www/config
+ln -s $TRAC_LIB /var/www/projects
+ln -s $TRAC_SHARE /var/www/backend
+
+# create example projects
+trac-initproject git helloworld
+trac-initproject bzr helloworld
+trac-initproject svn helloworld
+trac-initproject hg helloworld
+
+# deploy trac configuration and create wsgi
+# note: project specified is irrelevant, but required argument for command
+trac-admin $TRAC_LIB/git-helloworld deploy $TRAC_SHARE
+
+cat > $TRAC_SHARE/cgi-bin/trac.wsgi <<EOF
+#!/usr/bin/python
+import os
+
+def application(environ, start_request):
+    environ.setdefault('trac.env_parent_dir', '/var/local/lib/trac')
+    os.environ['TRAC_ENV_INDEX_TEMPLATE'] = '/var/www/index.html'
+    os.environ['PYTHON_EGG_CACHE'] = os.path.join(
+        environ['trac.env_parent_dir'], '.egg-cache')
+
+    from trac.web.main import dispatch_request
+    return dispatch_request(environ, start_request)
+EOF
+
+# site wide configurations
+chown -R www-data:www-data $TRAC_LIB
+mkdir -p $TRAC_SHARE/htdocs/site
+cp $TRAC_SHARE/htdocs/common/trac_banner.png $TRAC_SHARE/htdocs/site/logo.png
+htpasswd -cb $TRAC_ETC/htpasswd $ADMIN_USER $ADMIN_PASS
+
+# create site wide plugins (cannot store plugin in TRAC_SHARE prior to deploy)
+mkdir -p $TRAC_SHARE/plugins
+mv $TRAC_ETC/HttpHostLink.py $TRAC_SHARE/plugins
+chown -R www-data:www-data $TRAC_SHARE/plugins
+
+# configure apache
+a2dissite default
+ln -s $TRAC_ETC/apache.conf /etc/apache2/sites-available/trac
+a2ensite trac
+

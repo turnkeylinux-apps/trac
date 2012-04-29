@@ -1,0 +1,20 @@
+#include <turnkey/base>
+#include <turnkey/revisioncontrol>
+
+apache2-mpm-worker
+libapache2-mod-wsgi
+webmin-apache
+
+trac
+trac-git
+trac-bzr
+trac-mercurial
+
+libjs-jquery            /* required for trac-admin deploy */
+
+python-subversion
+python-pygments         /* syntax highlighting support */
+python-tz               /* timezones support */
+
+postfix
+webmin-postfix

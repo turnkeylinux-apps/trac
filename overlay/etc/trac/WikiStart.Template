@@ -1,0 +1,20 @@
+= Welcome to !TurnKey Trac =
+
+Trac is a '''minimalistic''' approach to '''web-based''' management of '''software projects'''. Its goal is to simplify effective tracking and handling of software issues, enhancements and overall progress.
+
+All aspects of Trac have been designed with the single goal to '''help developers write great software''' while '''staying out of the way''' and imposing as little as possible on a team's established process and culture.
+
+== Getting started ==
+
+ * Log in as '''admin''' and get Trac'in!
+ * Create new Trac projects with '''trac-initproject''' on the command line
+ * Manage the appliance with the [[HttpHostLink(https, 12320, Web based terminal shell)]] or [[HttpHostLink(https, 12321, Web management interface)]]
+ * Refer to the [http://www.turnkeylinux.org/trac TurnKey Trac release notes]
+ * TracGuide --  Built-in Documentation
+ * WikiFormatting -- Detailed description of available Wiki formatting commands
+ * [http://trac.edgewall.org/ The Trac project] -- Trac Open Source Project
+ * [http://trac.edgewall.org/wiki/TracFaq Trac FAQ] -- Frequently Asked Questions
+ * TracSupport --  Trac Support
+
+For a complete list of local wiki pages, see TitleIndex.
+

@@ -1,0 +1,138 @@
+#!/bin/bash -e
+#Copyright (c) 2009 Alon Swartz <alon@turnkeylinux.org> - all rights reserved
+
+fatal() {
+    echo "fatal: $@" 1>&2
+    exit 1
+}
+
+esc() {
+    echo $1 | sed "s/\//\\\\\//g"
+}
+
+init_trac_project() {
+    echo "initializing trac project: $VC"
+
+    trac-admin $PROJ_LIB initenv "$PROJ_NAME" sqlite:db/trac.db $VC $PROJ_REPO
+    trac-admin $PROJ_LIB permission add $ADMIN_USER TRAC_ADMIN
+    trac-admin $PROJ_LIB wiki import WikiStart $TRAC_ETC/WikiStart.Template
+
+    mv $PROJ_LIB/conf/trac.ini $INI
+    ln -s $INI $PROJ_LIB/conf/trac.ini
+    chown www-data:www-data $INI
+
+    sed -i "s/^alt = \(.*\)/alt = trac logo/" $INI
+    sed -i "s/^height = \(.*\)/height = 73/" $INI
+    sed -i "s/^link = \(.*\)/link = \/$PROJ/" $INI
+    sed -i "s/^width = \(.*\)/width = 236/" $INI
+    sed -i "s/^src = \(.*\)/src = $(esc site/logo.png)/" $INI
+    sed -i "s/^icon = \(.*\)/icon = $(esc images/$VC.png)/" $INI
+
+    sed -i "s/^descr = \(.*\)/descr = $PROJ_DESC/" $INI
+
+    sed -i "s/^smtp_enabled = \(.*\)/smtp_enabled = true/" $INI
+    sed -i "s/trac@localhost/root@localhost/g" $INI
+
+    rmdir $PROJ_LIB/htdocs
+    ln -s $TRAC_SHARE/htdocs/site $PROJ_LIB/htdocs
+
+    rmdir $PROJ_LIB/plugins
+    ln -s $TRAC_SHARE/plugins $PROJ_LIB/plugins
+
+    chown -R www-data:www-data $TRAC_LIB
+}
+
+if [ $# -ne "2" ]; then
+    echo "Syntax:  $0 git|bzr|svn|hg NAME"
+    echo "Example: $0 git foobar"
+    echo 
+    echo "Environment variables:"
+    echo "    GIT_PUBLIC_WRITE    enabled public write access (default: yes)"
+    exit 1
+fi
+
+VC=$1
+NAME=$2
+
+ADMIN_USER=admin
+
+TRAC_ETC=/etc/trac
+TRAC_LIB=/var/local/lib/trac
+TRAC_SHARE=/usr/local/share/trac
+
+PROJ=$VC-$NAME
+PROJ_LIB=$TRAC_LIB/$PROJ
+PROJ_REPO=/srv/repos/$VC/$NAME
+PROJ_NAME="$NAME"
+PROJ_DESC="$VC $NAME project"
+INI=$TRAC_ETC/$PROJ.ini
+
+[ -e $INI ] && fatal "project $PROJ already exists"
+
+set ${GIT_PUBLIC_WRITE:=yes}
+
+case "$VC" in
+    git)
+        # initialize empty repository
+        mkdir -p $PROJ_REPO
+        cd $PROJ_REPO
+        [ -d ".git" ] || git init
+
+        touch $PROJ_REPO/.git/git-daemon-export-ok
+        ln -s $PROJ_REPO/.git /var/cache/git/$NAME.git
+        echo $name > $PROJ_REPO/.git/description
+
+        # allow public git-push to repo
+        if [ "$GIT_PUBLIC_WRITE" == "yes" ]; then
+            echo "[daemon]" >> $PROJ_REPO/.git/config
+            echo "        uploadpack = true" >> $PROJ_REPO/.git/config
+            echo "        uploadarchive = true" >> $PROJ_REPO/.git/config
+            echo "        receivepack = true" >> $PROJ_REPO/.git/config
+        fi
+
+        # initialize trac project
+        init_trac_project
+        INI=$TRAC_ETC/$VC-$NAME.ini
+        GIT_REPO=/var/cache/git/$NAME.git
+        sed -i "s/^repository_dir =\(.*\)/repository_dir = $(esc $GIT_REPO)/" $INI
+        sed -i "s/^git_bin = \(.*\)/git_bin = $(esc /usr/bin/git)/" $INI
+        echo "[components]" >> $INI
+        echo "tracext.git.* = enabled" >> $INI
+        ;;
+    bzr)
+        # initialize empty repository
+        mkdir -p $PROJ_REPO
+        cd $PROJ_REPO
+        [ -d ".bzr" ] || bzr init-repository .
+
+        # initialize trac project
+        init_trac_project
+        INI=$TRAC_ETC/$VC-$NAME.ini
+        echo "[components]" >> $INI
+        echo "tracbzr.* = enabled" >> $INI
+        ;;
+    hg)
+        # initialize empty repository
+        mkdir -p $PROJ_REPO
+        cd $PROJ_REPO
+        [ -d ".hg" ] || hg init
+
+        # initialize trac project
+        init_trac_project
+        INI=$TRAC_ETC/$VC-$NAME.ini
+        echo "[components]" >> $INI
+        echo "tracext.hg.* = enabled" >> $INI
+        ;;
+    svn)
+        # initialize empty repository
+        mkdir -p $PROJ_REPO
+        [ -e "$PROJ_REPO/conf/svnserve.conf" ] || svnadmin create $PROJ_REPO
+
+        # initialize trac project
+        init_trac_project
+        ;;
+    *)
+        fatal "unsupported VC: $VC"
+        ;;
+esac
+

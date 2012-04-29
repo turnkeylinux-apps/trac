@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <head>
+    <title>TurnKey Trac</title>
+    <style type="text/css">
+body, h1 {
+    font-family: "Trebuchet MS", Trebuchet, Verdana, Helvetica, Arial, sans-serif;
+}
+h1 {
+    margin: 1em 0 1.5em;
+    font-size: 18px;
+    text-align: center;
+}
+#container-1 {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.fragment-content div {
+    color: #444444;
+    float: left;
+    height: 150px;
+    padding: 5pt 8px;
+    text-align: center;
+    width: 84px;
+}
+.fragment-content a {
+    color: #003399;
+    text-decoration: none;
+}
+.fragment-content a:hover {
+    color: #0066FF;
+    text-decoration: underline;
+}
+.fragment-content img {
+    display: block;
+    margin: 0pt auto;
+    border: 0pt none;
+    border-style: none;
+}
+#turnkey-credit {
+    display: none;
+}
+    </style>
+  </head>
+
+  <body>
+    <center><h1>TurnKey Trac - Projects</h1></center>
+    <div id="container-1">
+      <div class="fragment-content">
+        <div py:for="project in projects" py:choose="">
+          <a py:when="'href' in project"
+            href="$project.href"
+            title="$project.description">
+            <img src="$project.env.project_icon"/>$project.name</a>
+          <py:otherwise>
+            <small>$project.name: <em>Error</em><br/>($project.description)</small>
+          </py:otherwise>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
