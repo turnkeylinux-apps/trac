@@ -51,7 +51,7 @@ mv $TRAC_ETC/HttpHostLink.py $TRAC_SHARE/plugins
 chown -R www-data:www-data $TRAC_SHARE/plugins
 
 # configure apache
-a2dissite default
-ln -s $TRAC_ETC/apache.conf /etc/apache2/sites-available/trac
+a2dissite 000-default
+ln -s $TRAC_ETC/apache.conf /etc/apache2/sites-available/trac.conf
 a2ensite trac
 
