@@ -79,7 +79,7 @@ case "$VC" in
         [ -d ".git" ] || git init
 
         touch $PROJ_REPO/.git/git-daemon-export-ok
-        ln -s $PROJ_REPO/.git /var/cache/git/$NAME.git
+        ln -s $PROJ_REPO/.git /var/lib/git/$NAME.git
         echo $name > $PROJ_REPO/.git/description
 
         # allow public git-push to repo
@@ -93,7 +93,7 @@ case "$VC" in
         # initialize trac project
         init_trac_project
         INI=$TRAC_ETC/$VC-$NAME.ini
-        GIT_REPO=/var/cache/git/$NAME.git
+        GIT_REPO=/var/lib/git/$NAME.git
         sed -i "s/^repository_dir =\(.*\)/repository_dir = $(esc $GIT_REPO)/" $INI
         sed -i "s/^git_bin = \(.*\)/git_bin = $(esc /usr/bin/git)/" $INI
         echo "[components]" >> $INI
