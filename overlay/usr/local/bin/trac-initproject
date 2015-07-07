@@ -43,7 +43,7 @@ init_trac_project() {
 }
 
 if [ $# -ne "2" ]; then
-    echo "Syntax:  $0 git|bzr|svn|hg NAME"
+    echo "Syntax:  $0 git|svn|hg NAME"
     echo "Example: $0 git foobar"
     echo 
     echo "Environment variables:"
@@ -97,19 +97,7 @@ case "$VC" in
         sed -i "s/^repository_dir =\(.*\)/repository_dir = $(esc $GIT_REPO)/" $INI
         sed -i "s/^git_bin = \(.*\)/git_bin = $(esc /usr/bin/git)/" $INI
         echo "[components]" >> $INI
-        echo "tracext.git.* = enabled" >> $INI
-        ;;
-    bzr)
-        # initialize empty repository
-        mkdir -p $PROJ_REPO
-        cd $PROJ_REPO
-        [ -d ".bzr" ] || bzr init-repository .
-
-        # initialize trac project
-        init_trac_project
-        INI=$TRAC_ETC/$VC-$NAME.ini
-        echo "[components]" >> $INI
-        echo "tracbzr.* = enabled" >> $INI
+        echo "tracopt.versioncontrol.git.* = enabled" >> $INI
         ;;
     hg)
         # initialize empty repository
@@ -127,9 +115,12 @@ case "$VC" in
         # initialize empty repository
         mkdir -p $PROJ_REPO
         [ -e "$PROJ_REPO/conf/svnserve.conf" ] || svnadmin create $PROJ_REPO
-
+        
         # initialize trac project
         init_trac_project
+        INI=$TRAC_ETC/$VC-$NAME.ini
+        echo "[components]" >> $INI
+        echo "tracopt.versioncontrol.svn.* = enabled" >> $INI
         ;;
     *)
         fatal "unsupported VC: $VC"
