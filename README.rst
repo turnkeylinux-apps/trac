@@ -15,7 +15,7 @@ and on top of that:
    
    - Installed from package management. See /var/www for links to file
      paths.
-   - Supports Git, Mercurial and Subversion (Bazzar no longer supported).
+   - Supports Git, Mercurial and Subversion (Bazaar no longer supported).
    - List repositories in web interface.
    - Example helloworld repositories.
    - Site wide authentication realm and admin user.
