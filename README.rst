@@ -15,7 +15,7 @@ and on top of that:
    
    - Installed from package management. See /var/www for links to file
      paths.
-   - Supports Git, Bazaar, Mercurial and Subversion.
+   - Supports Git, Mercurial and Subversion (Bazaar no longer supported).
    - List repositories in web interface.
    - Example helloworld repositories.
    - Site wide authentication realm and admin user.
@@ -31,7 +31,6 @@ and on top of that:
     Name        Protocol access
     ----        ---------------
     Git         git://addr/git/REPO
-    Bazaar      bzr://addr/bzr/REPO
     Subversion  svn://addr/svn/REPO
     Mercurial   http://addr:8080/REPO
     Repositories are stored in /srv/repos.

@@ -6,8 +6,6 @@ libapache2-mod-wsgi
 webmin-apache
 
 trac
-trac-git
-trac-bzr
 trac-mercurial
 
 libjs-jquery            /* required for trac-admin deploy */

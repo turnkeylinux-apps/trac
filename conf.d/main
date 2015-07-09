@@ -17,7 +17,6 @@ ln -s $TRAC_SHARE /var/www/backend
 
 # create example projects
 trac-initproject git helloworld
-trac-initproject bzr helloworld
 trac-initproject svn helloworld
 trac-initproject hg helloworld
 
@@ -51,7 +50,10 @@ mv $TRAC_ETC/HttpHostLink.py $TRAC_SHARE/plugins
 chown -R www-data:www-data $TRAC_SHARE/plugins
 
 # configure apache
-a2dissite default
-ln -s $TRAC_ETC/apache.conf /etc/apache2/sites-available/trac
+a2dissite 000-default
+ln -s $TRAC_ETC/apache.conf /etc/apache2/sites-available/trac.conf
 a2ensite trac
 
+#removed bzr as no longer supported
+apt-get -y purge bzr python-bzrlib python-paramiko
+rm -rf /etc/init.d/bzr /srv/repos/bzr
