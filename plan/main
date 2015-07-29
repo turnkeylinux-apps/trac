@@ -13,6 +13,3 @@ libjs-jquery            /* required for trac-admin deploy */
 python-subversion
 python-pygments         /* syntax highlighting support */
 python-tz               /* timezones support */
-
-postfix
-webmin-postfix
