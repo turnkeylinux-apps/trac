@@ -47,5 +47,5 @@ Credentials *(passwords set at first boot)*
 
 
 .. _Trac: http://trac.edgewall.org
-.. _TurnKey Core: http://www.turnkeylinux.org/core
-.. _Trac documentation: http://www.turnkeylinux.org/docs/trac
+.. _TurnKey Core: https://www.turnkeylinux.org/core
+.. _Trac documentation: https://www.turnkeylinux.org/docs/trac
