@@ -9,7 +9,7 @@ All aspects of Trac have been designed with the single goal to '''help developer
  * Log in as '''admin''' and get Trac'in!
  * Create new Trac projects with '''trac-initproject''' on the command line
  * Manage the appliance with the [[HttpHostLink(https, 12320, Web based terminal shell)]] or [[HttpHostLink(https, 12321, Web management interface)]]
- * Refer to the [http://www.turnkeylinux.org/trac TurnKey Trac release notes]
+ * Refer to the [https://www.turnkeylinux.org/trac TurnKey Trac release notes]
  * TracGuide --  Built-in Documentation
  * WikiFormatting -- Detailed description of available Wiki formatting commands
  * [http://trac.edgewall.org/ The Trac project] -- Trac Open Source Project
