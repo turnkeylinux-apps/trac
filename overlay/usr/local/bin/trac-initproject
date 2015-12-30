@@ -7,7 +7,7 @@ fatal() {
 }
 
 esc() {
-    echo $1 | sed "s/\//\\\\\//g"
+    echo $1 | sed "s#\/#\\\\\/#g"
 }
 
 init_trac_project() {
@@ -21,17 +21,15 @@ init_trac_project() {
     ln -s $INI $PROJ_LIB/conf/trac.ini
     chown www-data:www-data $INI
 
-    sed -i "s/^alt = \(.*\)/alt = trac logo/" $INI
-    sed -i "s/^height = \(.*\)/height = 73/" $INI
-    sed -i "s/^link = \(.*\)/link = \/$PROJ/" $INI
-    sed -i "s/^width = \(.*\)/width = 236/" $INI
-    sed -i "s/^src = \(.*\)/src = $(esc site/logo.png)/" $INI
-    sed -i "s/^icon = \(.*\)/icon = $(esc images/$VC.png)/" $INI
-
-    sed -i "s/^descr = \(.*\)/descr = $PROJ_DESC/" $INI
-
-    sed -i "s/^smtp_enabled = \(.*\)/smtp_enabled = true/" $INI
-    sed -i "s/trac@localhost/root@localhost/g" $INI
+    trac-admin $PROJ_LIB config set header_logo alt trac_logo
+    trac-admin $PROJ_LIB config set header_logo height 73
+    trac-admin $PROJ_LIB config set header_logo link "$PROJ"
+    trac-admin $PROJ_LIB config set header_logo width 236
+    trac-admin $PROJ_LIB config set header_logo src $(esc site/logo.png)
+    trac-admin $PROJ_LIB config set project icon $(esc images/$VC.png)
+    trac-admin $PROJ_LIB config set project descr "$PROJ_DESC"
+    trac-admin $PROJ_LIB config set notification smtp_enabled true
+    trac-admin $PROJ_LIB config set notification smtp_replyto root@localhost
 
     rmdir $PROJ_LIB/htdocs
     ln -s $TRAC_SHARE/htdocs/site $PROJ_LIB/htdocs
@@ -92,12 +90,10 @@ case "$VC" in
 
         # initialize trac project
         init_trac_project
-        INI=$TRAC_ETC/$VC-$NAME.ini
         GIT_REPO=/var/lib/git/$NAME.git
-        sed -i "s/^repository_dir =\(.*\)/repository_dir = $(esc $GIT_REPO)/" $INI
-        sed -i "s/^git_bin = \(.*\)/git_bin = $(esc /usr/bin/git)/" $INI
-        echo "[components]" >> $INI
-        echo "tracopt.versioncontrol.git.* = enabled" >> $INI
+        trac-admin $PROJ_LIB config set trac repository_dir $(esc $GIT_REPO)
+        trac-admin $PROJ_LIB config set trac git_bin $(esc /usr/bin/git)
+        trac-admin $PROJ_LIB config set components tracopt.versioncontrol.git.* enabled
         ;;
     hg)
         # initialize empty repository
@@ -107,9 +103,7 @@ case "$VC" in
 
         # initialize trac project
         init_trac_project
-        INI=$TRAC_ETC/$VC-$NAME.ini
-        echo "[components]" >> $INI
-        echo "tracext.hg.* = enabled" >> $INI
+        trac-admin config set components tracext.hg.* enabled
         ;;
     svn)
         # initialize empty repository
@@ -118,9 +112,7 @@ case "$VC" in
         
         # initialize trac project
         init_trac_project
-        INI=$TRAC_ETC/$VC-$NAME.ini
-        echo "[components]" >> $INI
-        echo "tracopt.versioncontrol.svn.* = enabled" >> $INI
+        trac-admin $PROJ_LIB config set components tracopt.versioncontrol.svn.* enabled
         ;;
     *)
         fatal "unsupported VC: $VC"
