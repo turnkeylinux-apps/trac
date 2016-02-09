@@ -38,6 +38,9 @@ def application(environ, start_request):
     return dispatch_request(environ, start_request)
 EOF
 
+# recommended for setuptools 5.5.1 to avoid degraded performance
+echo 'export PKG_RESOURCES_CACHE_ZIP_MANIFESTS=1' >> /etc/apache2/envvars
+
 # site wide configurations
 chown -R www-data:www-data $TRAC_LIB
 mkdir -p $TRAC_SHARE/htdocs/site
