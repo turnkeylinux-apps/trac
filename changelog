@@ -1,3 +1,11 @@
+turnkey-trac-14.1 (1) turnkey; urgency=low
+
+  * Improved trac-initproject, now use trac-admin
+
+    - work done by Anton Pyrogovskyi <anton@turnkeylinux.org>
+
+ -- Jeremy Davis <jeremy@turnkeylinux.org>  Tue, 09 Feb 2016 13:14:07 +1100
+
 turnkey-trac-14.0 (1) turnkey; urgency=low
 
   * Latest Debian Jessie package version of Trac and related packages.
