@@ -25,8 +25,8 @@ init_trac_project() {
     trac-admin $PROJ_LIB config set header_logo height 73
     trac-admin $PROJ_LIB config set header_logo link "$PROJ"
     trac-admin $PROJ_LIB config set header_logo width 236
-    trac-admin $PROJ_LIB config set header_logo src $(esc site/logo.png)
-    trac-admin $PROJ_LIB config set project icon $(esc images/$VC.png)
+    trac-admin $PROJ_LIB config set header_logo src "site/logo.png"
+    trac-admin $PROJ_LIB config set project icon "images/$VC.png"
     trac-admin $PROJ_LIB config set project descr "$PROJ_DESC"
     trac-admin $PROJ_LIB config set notification smtp_enabled true
     trac-admin $PROJ_LIB config set notification smtp_replyto root@localhost
@@ -91,8 +91,8 @@ case "$VC" in
         # initialize trac project
         init_trac_project
         GIT_REPO=/var/lib/git/$NAME.git
-        trac-admin $PROJ_LIB config set trac repository_dir $(esc $GIT_REPO)
-        trac-admin $PROJ_LIB config set trac git_bin $(esc /usr/bin/git)
+        trac-admin $PROJ_LIB config set trac repository_dir "$GIT_REPO"
+        trac-admin $PROJ_LIB config set trac git_bin "/usr/bin/git"
         trac-admin $PROJ_LIB config set components tracopt.versioncontrol.git.* enabled
         ;;
     hg)
@@ -103,7 +103,7 @@ case "$VC" in
 
         # initialize trac project
         init_trac_project
-        trac-admin config set components tracext.hg.* enabled
+        trac-admin $PROJ_LIB config set components tracext.hg.* enabled
         ;;
     svn)
         # initialize empty repository
