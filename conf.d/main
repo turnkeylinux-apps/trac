@@ -6,6 +6,7 @@ ADMIN_PASS=turnkey
 TRAC_ETC=/etc/trac
 TRAC_LIB=/var/local/lib/trac
 TRAC_SHARE=/usr/local/share/trac
+export PKG_RESOURCES_CACHE_ZIP_MANIFESTS=1
 
 mkdir -p $TRAC_LIB
 
