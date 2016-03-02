@@ -6,10 +6,6 @@ fatal() {
     exit 1
 }
 
-esc() {
-    echo $1 | sed "s#\/#\\\\\/#g"
-}
-
 init_trac_project() {
     echo "initializing trac project: $VC"
 
