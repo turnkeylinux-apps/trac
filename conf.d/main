@@ -61,3 +61,8 @@ a2ensite trac
 #removed bzr as no longer supported
 apt-get -y purge bzr python-bzrlib python-paramiko
 rm -rf /etc/init.d/bzr /srv/repos/bzr
+
+chmod 666 $TRAC_LIB/hg-helloworld/conf/trac.ini
+chmod 666 $TRAC_LIB/git-helloworld/conf/trac.ini
+chmod 666 $TRAC_LIB/svn-helloworld/conf/trac.ini
+
