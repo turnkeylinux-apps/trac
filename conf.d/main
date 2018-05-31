@@ -19,7 +19,6 @@ ln -s $TRAC_SHARE /var/www/backend
 # create example projects
 trac-initproject git helloworld
 trac-initproject svn helloworld
-trac-initproject hg helloworld
 
 # deploy trac configuration and create wsgi
 # note: project specified is irrelevant, but required argument for command
@@ -58,11 +57,6 @@ a2dissite 000-default
 ln -s $TRAC_ETC/apache.conf /etc/apache2/sites-available/trac.conf
 a2ensite trac
 
-#removed bzr as no longer supported
-apt-get -y purge bzr python-bzrlib python-paramiko
-rm -rf /etc/init.d/bzr /srv/repos/bzr
-
-chmod 666 $TRAC_LIB/hg-helloworld/conf/trac.ini
 chmod 666 $TRAC_LIB/git-helloworld/conf/trac.ini
 chmod 666 $TRAC_LIB/svn-helloworld/conf/trac.ini
 
