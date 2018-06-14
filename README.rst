@@ -4,9 +4,8 @@ Trac - Integrated SCM & Project Management
 `Trac`_ is a web-based project management and bug-tracking tool. It
 allows hyperlinking information between a computer bug database,
 revision control and wiki content. It also serves as a web interface to
-the revision control systems Subversion, Git, Mercurial, Bazaar,
-Perforce and Darcs. Among the users of Trac is NASA's Jet Propulsion
-Laboratory.
+the revision control systems Subversion and Git. Among the users of Trac
+is NASA's Jet Propulsion Laboratory.
 
 This appliance includes all the standard features in `TurnKey Core`_,
 and on top of that:
@@ -15,7 +14,7 @@ and on top of that:
    
    - Installed from package management. See /var/www for links to file
      paths.
-   - Supports Git, Mercurial and Subversion (Bazaar no longer supported).
+   - Supports Git and Subversion (Bazaar and Mercurial no longer supported).
    - List repositories in web interface.
    - Example helloworld repositories.
    - Site wide authentication realm and admin user.
@@ -30,14 +29,17 @@ and on top of that:
 
     Name        Protocol access
     ----        ---------------
-    Git         git://addr/git/REPO
-    Subversion  svn://addr/svn/REPO
-    Mercurial   http://addr:8080/REPO
+    Git         http://$ipaddr/git
+                https://$ipaddr/git
+                ssh://vcs@$ipaddr/git
+    Subversion  http://$ipaddr/svn
+                svn://addr/svn
+                svn+ssh://vcs@$ipaddr/srv/repos/svn
     Repositories are stored in /srv/repos.
 
-To simplify creating new projects, we have included a helper script
-called *trac-initproject*. Please refer to the `Trac documentation`_ for
-usage notes on how to create and access projects.
+To simplify creating new projects, helper script *trac-initproject* is
+included. Please refer to the `Trac documentation`_ for usage notes on
+how to create and access projects.
 
 Credentials *(passwords set at first boot)*
 -------------------------------------------
