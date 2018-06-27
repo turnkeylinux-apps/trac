@@ -1,8 +1,9 @@
 #!/bin/bash -e
-# set trac admin password and email
+# set trac/vcs admin password and email
 
 . /etc/default/inithooks
 
 [ -e $INITHOOKS_CONF ] && . $INITHOOKS_CONF
 $INITHOOKS_PATH/bin/trac.py --pass="$APP_PASS"
+$INITHOOKS_PATH/bin/setpass.py vcs --pass="$APP_PASS"
 
