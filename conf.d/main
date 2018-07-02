@@ -10,6 +10,9 @@ export PKG_RESOURCES_CACHE_ZIP_MANIFESTS=1
 
 mkdir -p $TRAC_LIB
 
+# needed for git-http
+a2enmod cgi
+
 # convenience symlinks
 ln -s /srv/repos /var/www/repos
 ln -s $TRAC_ETC /var/www/config
