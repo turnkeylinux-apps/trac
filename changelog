@@ -2,11 +2,9 @@ turnkey-trac-15.0 (1) turnkey; urgency=low
 
   * Latest Debian Stretch package version of Trac and related packages
 
-  * Replace MySQL with MariaDB
-
   * Mercurial (hg) support removed (& remaining Bazaar (bzr) components)
     (related to #1050)
-    [ Anton Pyrogovskyi ]
+    [ Anton Pyrogovskyi <anton@turnkeylinux.org> ]
 
   * Note: Please refer to turnkey-core's changelog for changes common to all
     appliances. Here we only describe changes specdific to this appliance.
