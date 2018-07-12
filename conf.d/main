@@ -12,6 +12,7 @@ mkdir -p $TRAC_LIB
 
 # needed for git-http
 a2enmod cgi
+a2enmod rewrite
 
 # convenience symlinks
 ln -s /srv/repos /var/www/repos
