@@ -64,3 +64,4 @@ a2ensite trac
 chmod 666 $TRAC_LIB/git-helloworld/conf/trac.ini
 chmod 666 $TRAC_LIB/svn-helloworld/conf/trac.ini
 
+chown www-data:www-data /etc/trac

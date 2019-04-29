@@ -1,3 +1,9 @@
+turnkey-trac-15.1 (1) turnkey; urgency=low
+
+  * Fixed config not changeable from webui
+
+ -- Stefan Davis <stefan@turnkeylinux.org>  Mon, 29 Apr 2019 01:22:16 +0000
+
 turnkey-trac-15.0 (1) turnkey; urgency=low
 
   * Latest Debian Stretch package version of Trac and related packages
