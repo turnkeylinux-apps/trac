@@ -1,6 +1,6 @@
 turnkey-trac-15.1 (1) turnkey; urgency=low
 
-  * Fixed config not changeable from webui
+  * Fixed config not changeable from webui - closes #1316.
 
  -- Stefan Davis <stefan@turnkeylinux.org>  Mon, 29 Apr 2019 01:22:16 +0000
 
