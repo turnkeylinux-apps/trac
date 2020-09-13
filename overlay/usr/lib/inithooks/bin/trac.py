@@ -42,6 +42,6 @@ def main():
         subprocess.run(["htpasswd", "-cb", "/etc/trac/htpasswd",
                         "admin", "%s" % password])
 
-
+        
 if __name__ == "__main__":
     main()
