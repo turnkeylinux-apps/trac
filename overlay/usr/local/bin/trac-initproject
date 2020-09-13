@@ -82,6 +82,8 @@ case "$VC" in
             echo "        uploadpack = true" >> $PROJ_REPO/.git/config
             echo "        uploadarchive = true" >> $PROJ_REPO/.git/config
             echo "        receivepack = true" >> $PROJ_REPO/.git/config
+            echo "[receive]" >> $PROJ_REPO/.git/config
+            echo "        denyCurrentBranch = updateInstead" >> $PROJ_REPO/.git/config
         fi
 
         # initialize trac project
