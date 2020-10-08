@@ -16,7 +16,7 @@ init_trac_project() {
     mv $PROJ_LIB/conf/trac.ini $INI
     ln -s $INI $PROJ_LIB/conf/trac.ini
     chown www-data:www-data $INI
-    chmod 0755 $INI
+    chmod 0750 $INI
     
     trac-admin $PROJ_LIB config set header_logo alt trac_logo
     trac-admin $PROJ_LIB config set header_logo height 73
