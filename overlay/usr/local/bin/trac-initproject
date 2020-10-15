@@ -16,7 +16,8 @@ init_trac_project() {
     mv $PROJ_LIB/conf/trac.ini $INI
     ln -s $INI $PROJ_LIB/conf/trac.ini
     chown www-data:www-data $INI
-
+    chmod 0750 $INI
+    
     trac-admin $PROJ_LIB config set header_logo alt trac_logo
     trac-admin $PROJ_LIB config set header_logo height 73
     trac-admin $PROJ_LIB config set header_logo link "$PROJ"
@@ -82,8 +83,13 @@ case "$VC" in
             echo "        uploadpack = true" >> $PROJ_REPO/.git/config
             echo "        uploadarchive = true" >> $PROJ_REPO/.git/config
             echo "        receivepack = true" >> $PROJ_REPO/.git/config
+            echo "[receive]" >> $PROJ_REPO/.git/config
+            echo "        denyCurrentBranch = updateInstead" >> $PROJ_REPO/.git/config
+            
+            chown -R vcs:vcs $PROJ_REPO
         fi
-
+        
+        
         # initialize trac project
         init_trac_project
         GIT_REPO=/var/lib/git/$NAME.git
